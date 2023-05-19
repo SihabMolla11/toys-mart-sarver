@@ -27,7 +27,19 @@ async function run() {
     try {
         await client.connect();
 
+        const GalleryCollection = client.db("Game_mart").collection("gellaryImg")
+        const GamesCollection = client.db("Game_mart").collection("games")
 
+        app.get('/galleryImg', async (req, res) => {
+            const result = await GalleryCollection.find().toArray();
+            res.send(result)
+        });
+
+        app.post("/games", async (req, res) => {
+            const newGme = req.body;
+            const result = await GamesCollection.insertOne(newGme);
+            res.send(result);
+        });
         
 
 
