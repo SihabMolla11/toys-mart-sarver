@@ -30,7 +30,7 @@ async function run() {
         const GalleryCollection = client.db("Game_mart").collection("gellaryImg")
         const GamesCollection = client.db("Game_mart").collection("games")
 
-        app.get('/galleryImg', async (req, res) => {
+        app.get("/galleryImg", async (req, res) => {
             const result = await GalleryCollection.find().toArray();
             res.send(result)
         });
@@ -40,7 +40,11 @@ async function run() {
             const result = await GamesCollection.insertOne(newGme);
             res.send(result);
         });
-        
+
+        app.get("/games", async (req, res) => {
+            const result = await GamesCollection.find().toArray();
+            res.send(result)
+        });
 
 
 
