@@ -28,42 +28,42 @@ async function run() {
         await client.connect();
 
         const GalleryCollection = client.db("Game_mart").collection("gellaryImg")
-        const GamesCollection = client.db("Game_mart").collection("games")
+        const toysCollection = client.db("Game_mart").collection("games")
 
         app.get("/galleryImg", async (req, res) => {
             const result = await GalleryCollection.find().toArray();
             res.send(result)
         });
 
-        app.post("/games", async (req, res) => {
+        app.post("/toys", async (req, res) => {
             const newGme = req.body;
-            const result = await GamesCollection.insertOne(newGme);
+            const result = await toysCollection.insertOne(newGme);
             res.send(result);
         });
 
-        app.get("/games", async (req, res) => {
-            const result = await GamesCollection.find().toArray();
+        app.get("/toys", async (req, res) => {
+            const result = await toysCollection.find().toArray();
             res.send(result)
         });
 
-        app.get("/games/:id", async (req, res) => {
+        app.get("/toys/:id", async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
-            const result = await GamesCollection.findOne(query);
+            const result = await toysCollection.findOne(query);
             res.send(result)
         })
 
-        app.get("/games-mydata", async (req, res) => {
+        app.get("/toys-mydata", async (req, res) => {
             console.log(req.query.email);
             let query = {}
             if (req.query?.email) {
                 query = { email: req.query.email }
             }
-            const result = await GamesCollection.find(query).toArray();
+            const result = await toysCollection.find(query).toArray();
             res.send(result)
         });
 
-        app.put("/games/:id", async (req, res) => {
+        app.put("/toys/:id", async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
             const game = req.body;
@@ -76,14 +76,14 @@ async function run() {
                     description: game.description
                 },
             };
-            const result = await GamesCollection.updateOne(query, updateGame);
+            const result = await toysCollection.updateOne(query, updateGame);
             res.send(result)
         });
 
-        app.delete('/games/:id', async (req, res) => {
+        app.delete('/toys/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
-            const result = await GamesCollection.deleteOne(query);
+            const result = await toysCollection.deleteOne(query);
             res.send(result)
         });
 
