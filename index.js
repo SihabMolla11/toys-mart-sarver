@@ -12,7 +12,7 @@ app.use(express.json());
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@cluster0.pphnrsn.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
@@ -53,6 +53,13 @@ async function run() {
                 query = { email: req.query.email }
             }
             const result = await GamesCollection.find(query).toArray();
+            res.send(result)
+        });
+
+        app.delete('/games/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await GamesCollection.deleteOne(query);
             res.send(result)
         });
 
