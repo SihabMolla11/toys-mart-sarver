@@ -53,13 +53,30 @@ async function run() {
             res.send(result)
         })
 
-        app.get("/games/mydata", async (req, res) => {
-            // console.log(req.query.email);
+        app.get("/games-mydata", async (req, res) => {
+            console.log(req.query.email);
             let query = {}
             if (req.query?.email) {
                 query = { email: req.query.email }
             }
             const result = await GamesCollection.find(query).toArray();
+            res.send(result)
+        });
+
+        app.put("/games/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const game = req.body;
+            const updateGame = {
+                $set: {
+                    category: game.category,
+                    price: game.price,
+                    rating: game.rating,
+                    quantity: game.quantity,
+                    description: game.description
+                },
+            };
+            const result = await GamesCollection.updateOne(query, updateGame);
             res.send(result)
         });
 
@@ -69,8 +86,6 @@ async function run() {
             const result = await GamesCollection.deleteOne(query);
             res.send(result)
         });
-
-
 
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
