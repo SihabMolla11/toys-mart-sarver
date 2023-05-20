@@ -28,7 +28,7 @@ async function run() {
         await client.connect();
 
         const GalleryCollection = client.db("Game_mart").collection("gellaryImg")
-        const toysCollection = client.db("Game_mart").collection("games")
+        const toysCollection = client.db("Game_mart").collection("Toys")
 
         app.get("/galleryImg", async (req, res) => {
             const result = await GalleryCollection.find().toArray();
