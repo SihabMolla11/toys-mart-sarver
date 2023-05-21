@@ -29,6 +29,8 @@ async function run() {
 
         const GalleryCollection = client.db("Game_mart").collection("gellaryImg")
         const toysCollection = client.db("Game_mart").collection("Toys")
+        const iconsInfoCollection = client.db("Game_mart").collection("infoCollection")
+
 
         app.get("/galleryImg", async (req, res) => {
             const result = await GalleryCollection.find().toArray();
@@ -45,6 +47,12 @@ async function run() {
             const result = await toysCollection.find().toArray();
             res.send(result)
         });
+
+        app.get("/useInfo", async (req, res) => {
+            const result = await iconsInfoCollection.find().toArray();
+            res.send(result);
+        });
+
 
         app.get("/toys/:id", async (req, res) => {
             const id = req.params.id;
@@ -111,9 +119,6 @@ async function run() {
     }
 }
 run().catch(console.dir);
-
-
-
 
 
 
