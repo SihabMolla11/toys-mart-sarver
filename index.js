@@ -15,17 +15,11 @@ app.use(express.json());
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@cluster0.pphnrsn.mongodb.net/?retryWrites=true&w=majority`;
 
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true,
-    }
-});
+const client = new MongoClient(uri, { useUnifiedTopology: true }, { useNewUrlParser: true }, { connectTimeoutMS: 30000 }, { keepAlive: 1 });
 
 async function run() {
     try {
-        await client.connect();
+        // await client.connect();
 
         const GalleryCollection = client.db("Game_mart").collection("gellaryImg")
         const toysCollection = client.db("Game_mart").collection("Toys")
@@ -112,7 +106,7 @@ async function run() {
 
 
 
-        await client.db("admin").command({ ping: 1 });
+        // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // await client.close();
